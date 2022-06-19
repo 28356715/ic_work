@@ -1,19 +1,8 @@
 import { hello } from "../../declarations/hello";
+import { AuthClient} from  "@dfinity/auth-client";
 
-document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const button = e.target.querySelector("button");
+const authClient = await AuthClient.create();
 
-  const name = document.getElementById("name").value.toString();
-
-  button.setAttribute("disabled", true);
-
-  // Interact with foo actor, calling the greet method
-  const greeting = await hello.greet(name);
-
-  button.removeAttribute("disabled");
-
-  document.getElementById("greeting").innerText = greeting;
-
-  return false;
-});
+document.getElementById("myPrincipal").innerHTML = String(
+  authClient.getIdentity().getPrincipal()
+);
